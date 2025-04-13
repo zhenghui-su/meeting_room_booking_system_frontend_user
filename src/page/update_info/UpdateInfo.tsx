@@ -47,6 +47,9 @@ export function UpdateInfo() {
 			const { message: msg, data } = res.data;
 			if (msg === 'success') {
 				message.success('用户信息更新成功');
+				setTimeout(() => {
+					navigate('/');
+				}, 1000);
 			} else {
 				message.error(data);
 			}
