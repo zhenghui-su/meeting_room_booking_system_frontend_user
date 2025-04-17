@@ -8,6 +8,9 @@ import { ErrorPage } from './page/error/ErrorPage';
 import '@ant-design/v5-patch-for-react-19';
 import { Index } from './page/index';
 import { UpdateInfo } from './page/update_info/UpdateInfo';
+import { Menu } from './page/menu/Menu';
+import { MeetingRoomList } from './page/meeting_room_list/MeetingRoomList';
+import { BookingHistory } from './page/booking_history/BookingHistory';
 
 const routes = [
 	{
@@ -18,6 +21,24 @@ const routes = [
 			{
 				path: 'update_info',
 				element: <UpdateInfo />,
+			},
+			{
+				path: '/',
+				element: <Menu />,
+				children: [
+					{
+						path: '/',
+						element: <MeetingRoomList />,
+					},
+					{
+						path: 'meeting_room_list',
+						element: <MeetingRoomList />,
+					},
+					{
+						path: 'booking_history',
+						element: <BookingHistory />,
+					},
+				],
 			},
 		],
 	},
@@ -34,7 +55,7 @@ const routes = [
 		element: <UpdatePassword />,
 	},
 ];
-const router = createBrowserRouter(routes);
+export const router = createBrowserRouter(routes);
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(<RouterProvider router={router} />);
