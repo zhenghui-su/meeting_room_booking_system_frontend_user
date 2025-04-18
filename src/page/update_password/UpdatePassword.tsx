@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
 	updatePassword,
 	updatePasswordCaptcha,
-} from '../../request/interfaces';
+} from '../../interface/interfaces';
 
 export interface UpdatePassword {
 	username: string;

@@ -7,7 +7,7 @@ import {
 	getUserInfo,
 	updateInfo,
 	updateUserInfoCaptcha,
-} from '../../request/interfaces';
+} from '../../interface/interfaces';
 import { HeadPicUpload } from './HeadPicUpload';
 
 export interface UserInfo {

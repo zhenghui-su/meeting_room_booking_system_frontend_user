@@ -1,7 +1,7 @@
 import { Button, Form, Input, message } from 'antd';
 import './register.css';
 import { useForm } from 'antd/es/form/Form';
-import { register, registerCaptcha } from '../../request/interfaces';
+import { register, registerCaptcha } from '../../interface/interfaces';
 import { useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 

@@ -1,9 +1,10 @@
-import { Badge, Button, Form, Input, Table, message } from 'antd';
+import { Button, Form, Input, Table, Tag, message } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import './meeting_room_list.css';
 import { ColumnsType } from 'antd/es/table';
 import { useForm } from 'antd/es/form/Form';
-import { searchMeetingRoomList } from '../../request/interfaces';
+import { searchMeetingRoomList } from '../../interface/interfaces';
+import { CreateBookingModal } from './CreateBookingModal';
 
 interface SearchMeetingRoom {
 	name: string;
@@ -11,7 +12,7 @@ interface SearchMeetingRoom {
 	equipment: string;
 }
 
-interface MeetingRoomSearchResult {
+export interface MeetingRoomSearchResult {
 	id: number;
 	name: string;
 	capacity: number;
@@ -26,6 +27,10 @@ interface MeetingRoomSearchResult {
 export function MeetingRoomList() {
 	const [pageNo, setPageNo] = useState<number>(1);
 	const [pageSize, setPageSize] = useState<number>(10);
+	const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+	const [currentMeetingRoom, setCurrentMeetingRoom] =
+		useState<MeetingRoomSearchResult>();
+	const [num, setNum] = useState<number>(0);
 
 	const [meetingRoomResult, setMeetingRoomResult] = useState<
 		Array<MeetingRoomSearchResult>
@@ -66,16 +71,24 @@ export function MeetingRoomList() {
 				dataIndex: 'isBooked',
 				render: (_, record) =>
 					record.isBooked ? (
-						<Badge status='error'>已被预订</Badge>
+						<Tag color='error'>已被预订</Tag>
 					) : (
-						<Badge status='success'>可预定</Badge>
+						<Tag color='success'>可预定</Tag>
 					),
 			},
 			{
 				title: '操作',
 				render: (_, record) => (
 					<div>
-						<a href='#'>预定</a>
+						<Button
+							type='primary'
+							onClick={() => {
+								setIsCreateModalOpen(true);
+								setCurrentMeetingRoom(record);
+							}}
+						>
+							预定
+						</Button>
 					</div>
 				),
 			},
@@ -115,7 +128,7 @@ export function MeetingRoomList() {
 			capacity: form.getFieldValue('capacity'),
 			equipment: form.getFieldValue('equipment'),
 		});
-	}, [pageNo, pageSize]);
+	}, [pageNo, pageSize, num]);
 
 	const changePage = useCallback(function (pageNo: number, pageSize: number) {
 		setPageNo(pageNo);
@@ -162,6 +175,16 @@ export function MeetingRoomList() {
 					}}
 				/>
 			</div>
+			{currentMeetingRoom ? (
+				<CreateBookingModal
+					meetingRoom={currentMeetingRoom}
+					isOpen={isCreateModalOpen}
+					handleClose={() => {
+						setIsCreateModalOpen(false);
+						setNum(Math.random());
+					}}
+				></CreateBookingModal>
+			) : null}
 		</div>
 	);
 }
